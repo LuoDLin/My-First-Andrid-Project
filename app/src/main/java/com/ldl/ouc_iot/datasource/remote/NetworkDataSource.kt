@@ -1,8 +1,8 @@
-package com.ldl.ouc_iot.data.datasource.remote
+package com.ldl.ouc_iot.datasource.remote
 
-import com.ldl.ouc_iot.data.Result
-import com.ldl.ouc_iot.data.datasource.remote.entities.NetworkLogin
-import com.ldl.ouc_iot.data.datasource.remote.entities.PhoneCode
+import com.ldl.ouc_iot.Result
+import com.ldl.ouc_iot.datasource.remote.entities.NetworkLogin
+import com.ldl.ouc_iot.datasource.remote.entities.PhoneCode
 
 interface NetworkDataSource {
     /**

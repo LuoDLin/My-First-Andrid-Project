@@ -1,8 +1,8 @@
-package com.ldl.ouc_iot.data.repository.login
+package com.ldl.ouc_iot.repository.login
 
-import com.ldl.ouc_iot.data.Result
-import com.ldl.ouc_iot.data.datasource.local.entities.LocalLogin
-import com.ldl.ouc_iot.data.datasource.remote.entities.PhoneCode
+import com.ldl.ouc_iot.Result
+import com.ldl.ouc_iot.datasource.local.entities.LocalLogin
+import com.ldl.ouc_iot.datasource.remote.entities.PhoneCode
 import kotlinx.coroutines.flow.Flow
 
 

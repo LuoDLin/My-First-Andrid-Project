@@ -1,4 +1,4 @@
-package com.ldl.ouc_iot.ui.login
+package com.ldl.ouc_iot.ui.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.text.KeyboardActions
@@ -17,8 +17,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import com.ldl.ouc_iot.R
-import com.ldl.ouc_iot.ui.components.MyBaseTextField
-import com.ldl.ouc_iot.ui.components.TextFieldState
 
 @OptIn(ExperimentalMaterial3Api::class) // OutlinedTextField is experimental in m3
 @Composable

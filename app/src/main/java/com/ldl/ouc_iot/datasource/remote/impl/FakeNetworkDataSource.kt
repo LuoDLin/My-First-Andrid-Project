@@ -1,16 +1,16 @@
-package com.ldl.ouc_iot.data.datasource.remote.impl
+package com.ldl.ouc_iot.datasource.remote.impl
 
-import com.ldl.ouc_iot.data.Result
-import com.ldl.ouc_iot.data.datasource.remote.NetworkDataSource
-import com.ldl.ouc_iot.data.datasource.remote.entities.NetworkLogin
-import com.ldl.ouc_iot.data.datasource.remote.entities.PhoneCode
+import com.ldl.ouc_iot.Result
+import com.ldl.ouc_iot.datasource.remote.NetworkDataSource
+import com.ldl.ouc_iot.datasource.remote.entities.NetworkLogin
+import com.ldl.ouc_iot.datasource.remote.entities.PhoneCode
 import kotlinx.coroutines.delay
 
 class FakeNetworkDataSource : NetworkDataSource {
     override suspend fun getCode(phone: String): Result<PhoneCode> {
         delay(1500)
 
-        return Result.Success(PhoneCode(phone))
+        return Result.Success(PhoneCode(200))
 //        else Re?sult.Error(Exception("获取验证码出错"))
     }
 
@@ -19,7 +19,7 @@ class FakeNetworkDataSource : NetworkDataSource {
         return if (phone == "17608316624" && code == "111111") {
             Result.Success(
                 NetworkLogin(
-                    code = 200, userName = phone, token = "zjoajfioaf/.zfjasiofa21sdz=234io"
+                    code = 200, message = phone, token = "zjoajfioaf/.zfjasiofa21sdz=234io"
                 )
             )
         } else {
@@ -32,7 +32,7 @@ class FakeNetworkDataSource : NetworkDataSource {
         return if (phone == "17608316624" && password == "11111111") {
             Result.Success(
                 NetworkLogin(
-                    code = 200, userName = phone, token = "zjoajfioaf/.zfjasiofa21sdz=234io"
+                    code = 200, message = phone, token = "zjoajfioaf/.zfjasiofa21sdz=234io"
                 )
             )
         } else {

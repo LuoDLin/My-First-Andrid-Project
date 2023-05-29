@@ -1,4 +1,4 @@
-package com.ldl.ouc_iot.ui.login
+package com.ldl.ouc_iot.ui.components
 
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -8,8 +8,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.ldl.ouc_iot.R
-import com.ldl.ouc_iot.ui.components.MyBaseTextField
-import com.ldl.ouc_iot.ui.components.TextFieldState
 import java.util.regex.Pattern
 
 

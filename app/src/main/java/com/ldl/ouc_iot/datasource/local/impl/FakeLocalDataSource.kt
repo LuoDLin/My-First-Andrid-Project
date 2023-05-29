@@ -1,7 +1,7 @@
-package com.ldl.ouc_iot.data.datasource.local.impl
+package com.ldl.ouc_iot.datasource.local.impl
 
-import com.ldl.ouc_iot.data.datasource.local.LocalDataSource
-import com.ldl.ouc_iot.data.datasource.local.entities.LocalLogin
+import com.ldl.ouc_iot.datasource.local.LocalDataSource
+import com.ldl.ouc_iot.datasource.local.entities.LocalLogin
 import kotlinx.coroutines.delay
 
 class FakeLocalDataSource() : LocalDataSource {

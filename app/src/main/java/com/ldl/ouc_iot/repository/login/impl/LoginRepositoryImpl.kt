@@ -1,17 +1,17 @@
-package com.ldl.ouc_iot.data.repository.login.impl
+package com.ldl.ouc_iot.repository.login.impl
 
-import com.ldl.ouc_iot.data.Result
-import com.ldl.ouc_iot.data.datasource.local.LocalDataSource
-import com.ldl.ouc_iot.data.datasource.local.entities.LocalLogin
-import com.ldl.ouc_iot.data.datasource.remote.NetworkDataSource
-import com.ldl.ouc_iot.data.datasource.remote.entities.NetworkLogin
-import com.ldl.ouc_iot.data.repository.login.LoginRepository
-import com.ldl.ouc_iot.data.repository.login.LoginState
+import com.ldl.ouc_iot.Result
+import com.ldl.ouc_iot.datasource.local.LocalDataSource
+import com.ldl.ouc_iot.datasource.local.entities.LocalLogin
+import com.ldl.ouc_iot.datasource.remote.NetworkDataSource
+import com.ldl.ouc_iot.datasource.remote.entities.NetworkLogin
+import com.ldl.ouc_iot.repository.login.LoginRepository
+import com.ldl.ouc_iot.repository.login.LoginState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 
-fun NetworkLogin.asLocalLogin(): LocalLogin = LocalLogin(userName = userName, token = token)
+fun NetworkLogin.asLocalLogin(): LocalLogin = LocalLogin(userName = message, token = token)
 
 
 fun NetworkLogin.asLoginState(): LoginState = when (code) {
@@ -42,7 +42,6 @@ class LoginRepositoryImpl(
                 is Result.Error -> _loginState.emit(
                     LoginState.LoginFailure(exception.message ?: "未知错误")
                 )
-
                 is Result.Success -> _loginState.emit(LoginState.LoginSuccess(data.asLocalLogin()))
             }
         }

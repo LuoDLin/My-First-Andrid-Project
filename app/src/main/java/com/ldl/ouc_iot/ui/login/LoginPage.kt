@@ -14,7 +14,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DeliveryDining
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -32,6 +31,27 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ldl.ouc_iot.R
 import com.ldl.ouc_iot.ui.State
+import com.ldl.ouc_iot.ui.components.CodeTextField
+import com.ldl.ouc_iot.ui.components.CodeTextFieldState
+import com.ldl.ouc_iot.ui.components.PasswordTextField
+import com.ldl.ouc_iot.ui.components.PasswordTextFieldState
+import com.ldl.ouc_iot.ui.components.PhoneTextField
+import com.ldl.ouc_iot.ui.components.PhoneTextFieldState
+
+
+@Composable
+fun LoginPageLog() {
+    Icon(
+        imageVector = Icons.Filled.DeliveryDining,
+        contentDescription = "",
+        tint = MaterialTheme.colorScheme.primary,
+        modifier = Modifier.size(100.dp)
+    )
+
+    Spacer(modifier = Modifier.height(20.dp))
+
+    Text(stringResource(id = R.string.logo), style = MaterialTheme.typography.headlineLarge)
+}
 
 
 @Composable
@@ -46,18 +66,21 @@ fun LoginPage(
     //是否使用验证码登录
     var codeLogin by remember { mutableStateOf(true) }
 
-
     val login = {
-        phoneState.enableShowErrors()
-        if (phoneState.isValid) {
-            if (codeLogin) {
-                if (codeState.isValid) loginViewModel.phoneLogin(
-                    phoneState.text, codeState.text
-                )
-            } else {
-                if (paswdState.isValid) loginViewModel.passwordLogin(
-                    phoneState.text, paswdState.text
-                )
+        if (uiState.loginState != State.Loading) {
+            phoneState.enableShowErrors()
+            paswdState.enableShowErrors()
+            codeState.enableShowErrors()
+            if (phoneState.isValid) {
+                if (codeLogin) {
+                    if (codeState.isValid) loginViewModel.phoneLogin(
+                        phoneState.text, codeState.text
+                    )
+                } else {
+                    if (paswdState.isValid) loginViewModel.passwordLogin(
+                        phoneState.text, paswdState.text
+                    )
+                }
             }
         }
     }
@@ -74,16 +97,8 @@ fun LoginPage(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        Icon(
-            imageVector = Icons.Filled.DeliveryDining,
-            contentDescription = "",
-            tint = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.size(100.dp)
-        )
 
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Text(stringResource(id = R.string.logo), style = MaterialTheme.typography.headlineLarge)
+        LoginPageLog()
 
         Spacer(modifier = Modifier.height(20.dp))
         //账号输入框
@@ -93,10 +108,10 @@ fun LoginPage(
 
         if (codeLogin) {
             //验证码输入框
-            CodeTextField(uiState = codeState,
-                getCode = { loginViewModel.getPhoneCode(phoneState.text) },
-                codeState = uiState.phoneCodeState,
-                onImeAction = { login() })
+            CodeTextField(uiState = codeState, getCode = {
+                phoneState.enableShowErrors()
+                if (phoneState.isValid) loginViewModel.getPhoneCode(phoneState.text)
+            }, codeState = uiState.phoneCodeState, onImeAction = { login() })
         } else {
             //密码输入框
             PasswordTextField(passwordState = paswdState, onImeAction = { login() })

@@ -1,8 +1,10 @@
-package com.ldl.ouc_iot.ui.login
+package com.ldl.ouc_iot.ui.components
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -20,14 +22,12 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.ldl.ouc_iot.R
 import com.ldl.ouc_iot.ui.State
-import com.ldl.ouc_iot.ui.components.MyBaseTextField
-import com.ldl.ouc_iot.ui.components.TextFieldState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
 @Composable
-fun CodeTimer(timerState: State<Nothing>, getCode: () -> Unit) {
+fun CodeTimer(timerState: State<Nothing>, onClick: () -> Unit) {
     var remainingTime by remember { mutableStateOf(0) }
     LaunchedEffect(timerState) {
         if (timerState is State.Success) {
@@ -41,22 +41,23 @@ fun CodeTimer(timerState: State<Nothing>, getCode: () -> Unit) {
         }
     }
 
-    if (timerState == State.Loading) {
-        CircularProgressIndicator(
-            strokeWidth = 3.dp,
-            modifier = Modifier
-                .padding(end = 20.dp)
-                .size(22.dp),
-            color = MaterialTheme.colorScheme.primary
-        )
-    } else {
-        Text(if (timerState is State.Success) {
-            if (remainingTime > 0) stringResource(id = R.string.resendAfter, remainingTime)
-            else stringResource(id = R.string.resend)
-        } else stringResource(id = R.string.getCode),
-            modifier = Modifier
-                .clickable(timerState != State.Loading || remainingTime == 0) { getCode() }
-                .padding(end = 15.dp))
+    Row {
+
+        if (timerState == State.Loading) {
+            CircularProgressIndicator(
+                strokeWidth = 3.dp,
+                modifier = Modifier.size(22.dp),
+                color = MaterialTheme.colorScheme.primary
+            )
+            Spacer(modifier = Modifier.width(20.dp))
+        } else {
+            Text(if (timerState is State.Success) {
+                if (remainingTime > 0) stringResource(id = R.string.resendAfter, remainingTime)
+                else stringResource(id = R.string.resend)
+            } else stringResource(id = R.string.getCode),
+                modifier = Modifier.clickable(timerState != State.Loading && remainingTime == 0) { onClick() })
+            Spacer(modifier = Modifier.width(15.dp))
+        }
     }
 
 
@@ -80,7 +81,7 @@ fun CodeTextField(
         uiState = uiState,
         maxLength = 6,
         label = stringResource(id = R.string.code),
-        trailingIcon = { CodeTimer(codeState, getCode = getCode) },
+        trailingIcon = { CodeTimer(codeState, onClick = getCode) },
         keyboardType = KeyboardType.Number,
         imeAction = ImeAction.Done,
         keyboardActions = KeyboardActions(onDone = { onImeAction() })

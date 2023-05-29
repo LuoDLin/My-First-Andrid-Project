@@ -4,22 +4,25 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.ldl.ouc_iot.data.Result
-import com.ldl.ouc_iot.data.repository.login.LoginRepository
-import com.ldl.ouc_iot.data.repository.login.LoginState
+import com.ldl.ouc_iot.Result
+import com.ldl.ouc_iot.repository.login.LoginRepository
+import com.ldl.ouc_iot.repository.login.LoginState
 import com.ldl.ouc_iot.ui.State
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-
-data class LoginUiState(
-    val loginState: State<Nothing>,
-    val phoneCodeState: State<Nothing>,
-)
+import kotlinx.coroutines.withContext
 
 
 class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
+    private val tag = "LoginViewModel"
+
+    data class LoginUiState(
+        val loginState: State<Nothing>,
+        val phoneCodeState: State<Nothing>,
+    )
 
     private val _loginUiState = MutableStateFlow(LoginUiState(State.None, State.None))
 
@@ -48,20 +51,25 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
         }
     }
 
+
     fun getPhoneCode(phone: String) {
         viewModelScope.launch {
-            _loginUiState.update { it.copy(phoneCodeState = State.Loading) }
-            loginRepository.getPhoneCode(phone).apply {
-                when (this) {
-                    //获取验证码失败
-                    is Result.Error -> _loginUiState.update {
-                        Log.i("--", "获取验证码失败")
-                        it.copy(phoneCodeState = State.Failed("获取验证码失败"))
-                    }
-                    //获取验证码成功
-                    is Result.Success -> _loginUiState.update {
-                        Log.i("--", "获取验证码成功")
-                        it.copy(phoneCodeState = State.Success())
+            withContext(Dispatchers.IO) {
+
+
+                _loginUiState.update { it.copy(phoneCodeState = State.Loading) }
+                loginRepository.getPhoneCode(phone).apply {
+                    when (this) {
+                        //获取验证码失败
+                        is Result.Error -> _loginUiState.update {
+                            Log.i(tag, "${this.exception.message}")
+                            it.copy(phoneCodeState = State.Failed("获取验证码失败"))
+                        }
+                        //获取验证码成功
+                        is Result.Success -> _loginUiState.update {
+                            Log.i(tag, "获取验证码成功")
+                            it.copy(phoneCodeState = State.Success())
+                        }
                     }
                 }
             }
@@ -70,7 +78,9 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
 
     fun phoneLogin(phone: String, code: String) {
         viewModelScope.launch {
-            loginRepository.phoneLogin(phone, code)
+            withContext(Dispatchers.IO) {
+                loginRepository.phoneLogin(phone, code)
+            }
         }
     }
 
@@ -98,4 +108,5 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
             }
         }
     }
+
 }
