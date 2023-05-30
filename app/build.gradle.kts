@@ -60,6 +60,7 @@ dependencies {
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
     implementation(libs.material.icons.extended)
+    implementation(libs.lifecycle.viewmodel.compose)
 
     implementation(libs.retrofit)
     implementation(libs.converter.moshi)

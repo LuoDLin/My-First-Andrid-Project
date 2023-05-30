@@ -1,4 +1,4 @@
-package com.ldl.ouc_iot.datasource.remote.impl.retrofit
+package com.ldl.ouc_iot.datasource.remote.retrofit
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory

@@ -1,8 +1,8 @@
-package com.ldl.ouc_iot.datasource.remote.impl
+package com.ldl.ouc_iot.datasource.remote
 
 import com.ldl.ouc_iot.Result
-import com.ldl.ouc_iot.datasource.remote.NetworkDataSource
 import com.ldl.ouc_iot.datasource.remote.entities.NetworkLogin
+import com.ldl.ouc_iot.datasource.remote.entities.NetworkUser
 import com.ldl.ouc_iot.datasource.remote.entities.PhoneCode
 import kotlinx.coroutines.delay
 
@@ -43,6 +43,11 @@ class FakeNetworkDataSource : NetworkDataSource {
     override suspend fun logout(phone: String): Result<NetworkLogin> {
         delay(1500)
         return Result.Success(NetworkLogin())
+    }
+
+    override suspend fun getUserInfo(token: String): Result<NetworkUser> {
+        delay(2000)
+        return Result.Success(NetworkUser("罗德林", "1008611"))
     }
 
 }

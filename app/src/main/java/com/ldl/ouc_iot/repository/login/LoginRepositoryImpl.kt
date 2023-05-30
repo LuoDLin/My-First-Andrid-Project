@@ -1,12 +1,10 @@
-package com.ldl.ouc_iot.repository.login.impl
+package com.ldl.ouc_iot.repository.login
 
 import com.ldl.ouc_iot.Result
 import com.ldl.ouc_iot.datasource.local.LocalDataSource
 import com.ldl.ouc_iot.datasource.local.entities.LocalLogin
 import com.ldl.ouc_iot.datasource.remote.NetworkDataSource
 import com.ldl.ouc_iot.datasource.remote.entities.NetworkLogin
-import com.ldl.ouc_iot.repository.login.LoginRepository
-import com.ldl.ouc_iot.repository.login.LoginState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,8 +28,7 @@ class LoginRepositoryImpl(
         if (token.isEmpty() || token.isEmpty()) LoginState.NotLoggedIn
         else LoginState.LoginSuccess(this)
     })
-    override val loginSate: Flow<LoginState>
-        get() = _loginState
+    override val loginSate: Flow<LoginState> = _loginState
 
     override suspend fun getPhoneCode(phone: String) = networkDataSource.getCode(phone)
 
@@ -42,6 +39,7 @@ class LoginRepositoryImpl(
                 is Result.Error -> _loginState.emit(
                     LoginState.LoginFailure(exception.message ?: "未知错误")
                 )
+
                 is Result.Success -> _loginState.emit(LoginState.LoginSuccess(data.asLocalLogin()))
             }
         }

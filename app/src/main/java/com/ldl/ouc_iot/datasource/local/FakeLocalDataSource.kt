@@ -1,7 +1,7 @@
-package com.ldl.ouc_iot.datasource.local.impl
+package com.ldl.ouc_iot.datasource.local
 
-import com.ldl.ouc_iot.datasource.local.LocalDataSource
 import com.ldl.ouc_iot.datasource.local.entities.LocalLogin
+import com.ldl.ouc_iot.datasource.local.entities.LocalUser
 import kotlinx.coroutines.delay
 
 class FakeLocalDataSource() : LocalDataSource {
@@ -14,7 +14,15 @@ class FakeLocalDataSource() : LocalDataSource {
     }
 
     override fun getLoginInfo(): LocalLogin {
-        return  LocalLogin("17608316624","asafasfasd")
+        return LocalLogin("", "")
+    }
+
+    override fun getUserInfo(): LocalUser {
+        return LocalUser("LuoDLin", "17608316624")
+    }
+
+    override fun saveUserInfo() {
+
     }
 
 

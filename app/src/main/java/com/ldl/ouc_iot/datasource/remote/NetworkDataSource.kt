@@ -2,6 +2,7 @@ package com.ldl.ouc_iot.datasource.remote
 
 import com.ldl.ouc_iot.Result
 import com.ldl.ouc_iot.datasource.remote.entities.NetworkLogin
+import com.ldl.ouc_iot.datasource.remote.entities.NetworkUser
 import com.ldl.ouc_iot.datasource.remote.entities.PhoneCode
 
 interface NetworkDataSource {
@@ -24,4 +25,9 @@ interface NetworkDataSource {
      * 退出
      */
     suspend fun logout(phone: String): Result<NetworkLogin>
+
+    /**
+     * 获取用户信息
+     */
+    suspend fun getUserInfo(token: String): Result<NetworkUser>
 }

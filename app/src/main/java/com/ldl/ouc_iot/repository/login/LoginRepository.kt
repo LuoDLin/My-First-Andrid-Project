@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 sealed interface LoginState {
     object NotLoggedIn : LoginState
     object LoggingIn : LoginState
-    data class LoginSuccess(val token: LocalLogin) : LoginState
+    data class LoginSuccess(val data: LocalLogin) : LoginState
     data class LoginFailure(val errorMessage: String) : LoginState
 }
 

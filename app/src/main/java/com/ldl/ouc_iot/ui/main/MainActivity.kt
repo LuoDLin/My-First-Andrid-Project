@@ -1,4 +1,4 @@
-package com.ldl.ouc_iot
+package com.ldl.ouc_iot.ui.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -7,10 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.ViewModelProvider
-import com.ldl.ouc_iot.ui.login.LoginPage
+import com.ldl.ouc_iot.App
 import com.ldl.ouc_iot.ui.theme.OuciotTheme
-import com.ldl.ouc_iot.ui.login.LoginViewModel
 
 
 class MainActivity : ComponentActivity() {
@@ -19,17 +17,14 @@ class MainActivity : ComponentActivity() {
         val app = application as App
         val container = app.container
 
-        val loginViewModel: LoginViewModel = ViewModelProvider(
-            this, factory = LoginViewModel.provideFactory(container.loginRepository)
-        )[LoginViewModel::class.java]
-
         setContent {
             OuciotTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    LoginPage(loginViewModel)
+//                    LoginPage(loginViewModel)
+                    MainScreen(container)
                 }
             }
         }

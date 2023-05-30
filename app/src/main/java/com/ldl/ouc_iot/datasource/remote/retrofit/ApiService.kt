@@ -1,4 +1,4 @@
-package com.ldl.ouc_iot.datasource.remote.impl.retrofit
+package com.ldl.ouc_iot.datasource.remote.retrofit
 
 import com.ldl.ouc_iot.datasource.remote.entities.NetworkLogin
 import com.ldl.ouc_iot.datasource.remote.entities.PhoneCode
@@ -25,6 +25,8 @@ interface ApiService {
      */
     @POST("user/login")
     suspend fun login(@Body info: LoginUserInfo): NetworkLogin
+
+
 
     /**
      * 退出
